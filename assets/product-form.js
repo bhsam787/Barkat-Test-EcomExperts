@@ -45,7 +45,7 @@ if (!customElements.get('product-form')) {
           .then((response) => response.json())
           .then((response) => {
 
-
+            /** Added bundle product while choosing handbag start */
             if (response.handle == 'black-leather-bag') {
               let formData = {
                 'items': [{
@@ -67,6 +67,8 @@ if (!customElements.get('product-form')) {
                   console.error('Error:', error);
                 });
             }
+            /** Added bundle product while choosing handbag end */
+
 
 
 

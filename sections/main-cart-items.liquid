@@ -283,9 +283,10 @@
                             </button>
                           </quantity-input>
                         </div>
-                        <cart-remove-button
+                        <cart-remove-button 
                           id="Remove-{{ item.index | plus: 1 }}"
                           data-index="{{ item.index | plus: 1 }}"
+                          data-handle="{{ item.product.handle }}"
                         >
                           <a
                             href="{{ item.url_to_remove }}"

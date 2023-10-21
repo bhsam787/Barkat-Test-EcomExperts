@@ -6,6 +6,18 @@ class CartRemoveButton extends HTMLElement {
       event.preventDefault();
       const cartItems = this.closest('cart-items') || this.closest('cart-drawer-items');
       cartItems.updateQuantity(this.dataset.index, 0);
+      if (event.target.closest('cart-remove-button').dataset.handle == 'black-leather-bag') {
+        let budndleProductIndex = '';
+        cartItems.querySelectorAll('.cart-item').forEach((item) => {
+          if (item.querySelector('cart-remove-button').dataset.handle == 'dark-winter-jacket') {
+            budndleProductIndex = item.querySelector('cart-remove-button').dataset.index;
+          }
+        })
+        setTimeout(() => {
+          budndleProductIndex && cartItems.updateQuantity(budndleProductIndex, 0);
+        }, 1000);
+      }
+
     });
   }
 }
@@ -103,7 +115,7 @@ class CartItems extends HTMLElement {
     ];
   }
 
-  updateQuantity(line, quantity, name, variantId) {
+  updateQuantity(line, quantity, name, variantId, handle = null) {
     this.enableLoading(line);
 
     const body = JSON.stringify({
@@ -119,6 +131,7 @@ class CartItems extends HTMLElement {
       })
       .then((state) => {
         const parsedState = JSON.parse(state);
+
         const quantityElement =
           document.getElementById(`Quantity-${line}`) || document.getElementById(`Drawer-quantity-${line}`);
         const items = document.querySelectorAll('.cart-item');
@@ -170,6 +183,7 @@ class CartItems extends HTMLElement {
         publish(PUB_SUB_EVENTS.cartUpdate, { source: 'cart-items', cartData: parsedState, variantId: variantId });
       })
       .catch(() => {
+
         this.querySelectorAll('.loading-overlay').forEach((overlay) => overlay.classList.add('hidden'));
         const errors = document.getElementById('cart-errors') || document.getElementById('CartDrawer-CartErrors');
         errors.textContent = window.cartStrings.error;
@@ -196,10 +210,12 @@ class CartItems extends HTMLElement {
   }
 
   getSectionInnerHTML(html, selector) {
+
     return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
   }
 
   enableLoading(line) {
+
     const mainCartItems = document.getElementById('main-cart-items') || document.getElementById('CartDrawer-CartItems');
     mainCartItems.classList.add('cart__items--disabled');
 
