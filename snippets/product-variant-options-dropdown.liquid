@@ -1,0 +1,43 @@
+
+{%- for value in option.values -%}
+    <div class="sizeDropdownInput">
+        <input
+        type="radio"
+        id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+        name="{{ option.name }}"
+        value="{{ value | escape }}"
+        form="{{ product_form_id }}"
+       
+    >
+  </div>
+{%- endfor -%}
+<select class="size-dropdown">
+    {%- for value in option.values -%}
+        <option
+        value="{{ value | escape }}"
+        {% if option.selected_value == value %}
+        selected="selected"
+        {% endif %}
+    >
+        {{- value -}}
+    </option>
+    {%- endfor -%}
+</select>
+
+<script>
+    const sizeDropdown = document.querySelector('.size-dropdown');
+    const radioInputs = document.querySelectorAll('.sizeDropdownInput input[type="radio"]');
+
+    sizeDropdown.addEventListener('change', function() {
+        const selectedValue = this.value;
+        radioInputs.forEach(input => {
+            if (input.value === selectedValue) {
+                input.checked = true;
+            } else {
+                input.checked = false;
+            }
+        });
+    });
+
+</script>
+
