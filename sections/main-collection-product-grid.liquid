@@ -159,6 +159,11 @@
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
                 {%- endif -%}
+                {% comment %} Skip the product with handle dark-winter-jacket on collection  -- START {% endcomment %}
+                {% if product.handle=='dark-winter-jacket' %}
+                  {% continue %}
+                {% endif %}
+              {% comment %} Skip the product with handle dark-winter-jacket on collection  -- END {% endcomment %}
                 <li
                   class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                   {% if settings.animations_reveal_on_scroll %}
