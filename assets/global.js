@@ -1075,6 +1075,7 @@ class VariantSelects extends HTMLElement {
     if (productForm) productForm.handleErrorMessage();
   }
 
+
   renderProductInfo() {
     const requestedVariantId = this.currentVariant.id;
     const sectionId = this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section;
