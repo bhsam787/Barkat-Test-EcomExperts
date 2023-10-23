@@ -44,9 +44,10 @@ if (!customElements.get('product-form')) {
         fetch(`${routes.cart_add_url}`, config)
           .then((response) => response.json())
           .then((response) => {
+            console.log(response)
 
             /** Added bundle product while choosing handbag start */
-            if (response.handle == 'black-leather-bag') {
+            if (response.variant_title == "Black / Medium") {
               let formData = {
                 'items': [{
                   'id': 42445262717101,
