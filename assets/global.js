@@ -995,6 +995,11 @@ class VariantSelects extends HTMLElement {
   updateMedia() {
     if (!this.currentVariant) return;
     if (!this.currentVariant.featured_media) return;
+    document.querySelectorAll('.sam-thumbnail').forEach((item) => {
+      if (!item.classList.contains('product__media-item--variant')) {
+        item.style.display = 'none';
+      }
+    });
 
     const mediaGalleries = document.querySelectorAll(`[id^="MediaGallery-${this.dataset.section}"]`);
     mediaGalleries.forEach((mediaGallery) =>

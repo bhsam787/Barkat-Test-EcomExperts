@@ -58,6 +58,8 @@
       const html = new DOMParser().parseFromString(responseText, 'text/html');
       document.querySelector('.product-form__buttons').innerHTML =
         html.querySelector('.product-form__buttons').innerHTML;
+      radioInputs[0].checked = true;
+      sizeDropdown.value = 'Unselected';
     } catch (error) {
       console.error('Error:', error);
     }
