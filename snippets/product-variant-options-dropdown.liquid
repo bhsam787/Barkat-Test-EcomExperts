@@ -1,0 +1,69 @@
+{%- for value in option.values -%}
+  <div class="sizeDropdownInput">
+    <input
+      type="radio"
+      id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+      name="{{ option.name }}"
+      value="{{ value | escape }}"
+      form="{{ product_form_id }}"
+      {% if value == 'Unselected' %}
+        checked
+      {% endif %}
+      {% if option_disabled %}
+        class="disabled"
+      {% endif %}
+    >
+  </div>
+{%- endfor -%}
+<select class="size-dropdown">
+  {%- for value in option.values -%}
+    <option
+      value="{{ value | escape }}"
+      {% if value == 'Unselected' %}
+        selected="selected"
+      {% endif %}
+    >
+      {{- value -}}
+    </option>
+  {%- endfor -%}
+</select>
+
+<script>
+  const sizeDropdown = document.querySelector('.size-dropdown');
+  const radioInputs = document.querySelectorAll('.sizeDropdownInput input[type="radio"]');
+
+  sizeDropdown.addEventListener('change', function () {
+    const selectedValue = this.value;
+    radioInputs.forEach((input) => {
+      if (input.value === selectedValue) {
+        input.checked = true;
+      } else {
+        input.checked = false;
+      }
+    });
+  });
+
+  async function onloadUnselected() {
+    try {
+      const requestedVariantId = '{{ product.variants[0].id }}';
+      const sectionId = document.querySelector('[data-section]').dataset.section;
+      const dataUrl = document.querySelector('[data-url]').dataset.url;
+      const response = await fetch(`${dataUrl}?variant=${requestedVariantId}&section_id=${sectionId}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseText = await response.text();
+      const html = new DOMParser().parseFromString(responseText, 'text/html');
+      document.querySelector('.product-form__buttons').innerHTML =
+        html.querySelector('.product-form__buttons').innerHTML;
+      radioInputs[0].checked = true;
+      sizeDropdown.value = 'Unselected';
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  onloadUnselected();
+</script>

@@ -44,6 +44,35 @@ if (!customElements.get('product-form')) {
         fetch(`${routes.cart_add_url}`, config)
           .then((response) => response.json())
           .then((response) => {
+            console.log(response)
+
+            /** Added bundle product while choosing handbag start */
+            if (response.variant_title == "Black / Medium") {
+              let formData = {
+                'items': [{
+                  'id': 42445262717101,
+                  'quantity': 1
+                }]
+              };
+              fetch(window.Shopify.routes.root + 'cart/add.js', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+              })
+                .then(response => {
+                  return response.json();
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+            }
+            /** Added bundle product while choosing handbag end */
+
+
+
+
             if (response.status) {
               publish(PUB_SUB_EVENTS.cartError, {
                 source: 'product-form',

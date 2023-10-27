@@ -218,6 +218,12 @@
                     {%- assign lazy_load = true -%}
                   {%- endif -%}
 
+                    {% comment %} Skip the product with handle dark-winter-jacket on  Search page -- START {% endcomment %}
+                      {% if item.handle=='dark-winter-jacket' %}
+                        {% continue %}
+                      {% endif %}
+                    {% comment %} Skip the product with handle dark-winter-jacket on  Search page -- END {% endcomment %}
+                    
                   <li class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                     {% if settings.animations_reveal_on_scroll %}
                       data-cascade
@@ -225,7 +231,7 @@
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
                         {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
-                        {% render 'card-product',
+                          {% render 'card-product',
                           card_product: item,
                           media_aspect_ratio: section.settings.image_ratio,
                           image_shape: section.settings.image_shape,
